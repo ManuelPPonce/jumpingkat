@@ -265,8 +265,8 @@ app.use((err, _req, res, _next) => {
   res.status(500).json({ message: "Tuvimos un problema en el servidor." });
 });
 
-const server = app.listen(port, () => {
-  console.log(`API lista en http://localhost:${port}`);
+const server = app.listen(port, "0.0.0.0", () => {
+  console.log(`API lista en el puerto ${port}`);
 });
 
 server.on("error", (error) => {
