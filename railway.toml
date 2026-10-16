@@ -1,0 +1,6 @@
+[build]
+builder = "RAILPACK"
+buildCommand = "npm run build --workspace=client"
+
+[deploy]
+startCommand = "npm run start --workspace=server"
