@@ -28,7 +28,7 @@ dotenv.config({ path: path.join(__dirname, ".env") });
 
 const adminPassword = process.env.ADMIN_PASSWORD || "";
 if (!adminPassword || adminPassword === "cambia-esta-clave" || adminPassword.length < 8) {
-  console.error("Define ADMIN_PASSWORD en server/.env con al menos 8 caracteres.");
+  console.error("Define ADMIN_PASSWORD en las variables del servicio, con al menos 8 caracteres.");
   process.exit(1);
 }
 
