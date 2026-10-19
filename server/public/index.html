@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Clases personalizadas de jumping | JumpingKat</title>
+    <meta
+      name="description"
+      content="Agenda tu clase personalizada de jumping. Música, coordinación y resistencia, a tu ritmo. Aparta tu lugar por Zelle."
+    />
+    <meta name="robots" content="index,follow" />
+    <meta name="theme-color" content="#000000" />
+    <script>
+      (function () {
+        var theme = "dark";
+        try {
+          var saved = localStorage.getItem("jumpingkat.theme");
+          if (saved === "light" || saved === "dark") theme = saved;
+        } catch (e) {}
+        document.documentElement.dataset.theme = theme;
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute("content", theme === "light" ? "#ffffff" : "#000000");
+      })();
+    </script>
+    <meta property="og:title" content="Clases personalizadas de jumping | JumpingKat" />
+    <meta
+      property="og:description"
+      content="Agenda tu clase personalizada de jumping y aparta tu lugar por Zelle."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="es_MX" />
+    <meta property="og:image" content="/og.svg" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <script type="module" crossorigin src="/assets/index-DrVcNP3j.js"></script>
+    <link rel="stylesheet" crossorigin href="/assets/index-DxGRhvcB.css">
+  </head>
+  <body>
+    <div id="root"></div>
+    <noscript>Activa JavaScript para ver JumpingKat y apartar tu clase.</noscript>
+  </body>
+</html>

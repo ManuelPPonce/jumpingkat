@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#000000"/>
+  <circle cx="180" cy="315" r="72" fill="#FFD60A"/>
+  <path d="M140 330c18-36 62-36 80 0" fill="none" stroke="#1D4ED8" stroke-width="8" stroke-linecap="round"/>
+  <circle cx="180" cy="292" r="10" fill="#1D4ED8"/>
+  <text x="300" y="300" fill="#FFFFFF" font-family="Poppins, sans-serif" font-size="72" font-weight="600">JumpingKat</text>
+  <text x="300" y="380" fill="#9B9B9B" font-family="Poppins, sans-serif" font-size="36">Clases personalizadas de jumping</text>
+</svg>

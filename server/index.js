@@ -247,8 +247,15 @@ app.use("/api", (_req, res) => {
   res.status(404).json({ message: "No encontramos ese recurso." });
 });
 
-const clientDist = path.resolve(__dirname, "../client/dist");
-if (existsSync(clientDist)) {
+const workspaceClient = path.resolve(__dirname, "../client/dist");
+const bundledClient = path.resolve(__dirname, "public");
+const clientDist = existsSync(path.join(workspaceClient, "index.html"))
+  ? workspaceClient
+  : existsSync(path.join(bundledClient, "index.html"))
+    ? bundledClient
+    : "";
+if (clientDist) {
+  console.log(`Sitio servido desde ${clientDist}`);
   app.use(express.static(clientDist));
   app.use((req, res, next) => {
     if (req.method !== "GET" || req.path.startsWith("/api")) return next();
