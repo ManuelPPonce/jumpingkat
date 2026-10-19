@@ -1,6 +1,10 @@
 import { useState } from "react";
 import { api, formatClassDate, formatTime } from "../api";
-import { Button, fieldClass } from "./ui";
+import zelleQr from "../img/zelle-qr.png";
+import { Button, buttonClass, fieldClass } from "./ui";
+
+const ZELLE_PAY_URL =
+  "https://enroll.zellepay.com/qr-codes?data=eyJ0b2tlbiI6IjcyMDg3NzY5ODgiLCJuYW1lIjoiS2F0aWEiLCJhY3Rpb24iOiJQQVlNRU5UIn0=";
 
 const EMPTY = {
   name: "",
@@ -67,9 +71,6 @@ function Form({ meta, selectedClass, onBooked }) {
   const [formError, setFormError] = useState("");
   const [saving, setSaving] = useState(false);
   const [booking, setBooking] = useState(null);
-  const [copied, setCopied] = useState(false);
-  const settings = meta.settings || {};
-
   function update(key, value) {
     setValues((current) => ({ ...current, [key]: value }));
   }
@@ -108,16 +109,6 @@ function Form({ meta, selectedClass, onBooked }) {
     }
   }
 
-  async function copyHandle() {
-    try {
-      await navigator.clipboard.writeText(settings.zelleHandle);
-      setCopied(true);
-    } catch {
-      setCopied(false);
-      setFormError("No pudimos copiar el destino. Selecciónalo a mano.");
-    }
-  }
-
   if (booking) {
     return (
       <div className="rounded-3xl bg-raise p-2" aria-live="polite">
@@ -151,7 +142,6 @@ function Form({ meta, selectedClass, onBooked }) {
             onClick={() => {
               setBooking(null);
               setValues(EMPTY);
-              setCopied(false);
             }}
           >
             Registrar a otra persona
@@ -165,8 +155,7 @@ function Form({ meta, selectedClass, onBooked }) {
     <form className="rounded-3xl bg-raise p-2" noValidate onSubmit={onSubmit}>
       <div className="relative rounded-2xl bg-card p-6">
         <div aria-live="polite">{formError ? <p className="mb-4 text-sm text-danger">{formError}</p> : null}</div>
-        <ZelleBox settings={settings} copied={copied} onCopy={copyHandle} />
-        <div className="mt-6 grid gap-4">
+        <div className="grid gap-4">
           <Field id="nombre" label="Nombre" error={errors.name}>
             <input id="nombre" className={fieldClass(Boolean(errors.name))} autoComplete="name" placeholder="Mariana López" value={values.name} aria-invalid={Boolean(errors.name)} aria-describedby={errors.name ? "nombre-error" : undefined} onChange={(event) => update("name", event.target.value)} />
           </Field>
@@ -233,27 +222,58 @@ function ChosenClass({ selectedClass }) {
   );
 }
 
-function ZelleBox({ settings, copied, onCopy }) {
+export function ZellePay({ settings = {} }) {
+  const [copied, setCopied] = useState(false);
+  const [copyError, setCopyError] = useState("");
+
+  async function copyHandle() {
+    try {
+      await navigator.clipboard.writeText(settings.zelleHandle);
+      setCopied(true);
+      setCopyError("");
+    } catch {
+      setCopied(false);
+      setCopyError("No pudimos copiar el destino. Selecciónalo a mano.");
+    }
+  }
+
   return (
-    <div className="rounded-2xl bg-soft p-4">
+    <div className="rounded-3xl bg-raise p-2">
+      <div className="rounded-2xl bg-card p-4">
       <h3 className="text-base font-semibold">A dónde enviar el Zelle</h3>
       {settings.zelleHandle ? (
         <>
           <p className="mt-2 text-sm text-muted">
-            Envía el pago a {settings.zelleName || "JumpingKat"}
-            {settings.classPrice ? `. Monto: ${settings.classPrice}` : ""}. Sin ese pago no se aparta el lugar. En la nota escribe tu nombre y la fecha de la clase.
+            {`Envía el pago a ${settings.zelleName || "JumpingKat"}${settings.classPrice ? ` por ${settings.classPrice}` : ""}. Toca el código para abrir Zelle con esos datos. Sin ese pago no se aparta el lugar. En la nota escribe tu nombre y la fecha de la clase.`}
           </p>
           {settings.location ? <p className="mt-2 text-sm text-muted">La clase es en {settings.location}.</p> : null}
-          <p className="mt-3 text-xl font-semibold">{settings.zelleHandle}</p>
-          <Button className="mt-3" type="button" tone="quiet" size="small" onClick={onCopy}>
-            {copied ? "Destino copiado" : "Copiar destino"}
-          </Button>
+          <a
+            href={ZELLE_PAY_URL}
+            target="_blank"
+            rel="noreferrer"
+            className="ring-focus mt-3 block w-max text-xl font-semibold"
+          >
+            {settings.zelleHandle}
+          </a>
+          <a href={ZELLE_PAY_URL} target="_blank" rel="noreferrer" className="ring-focus mx-auto mt-4 block w-max">
+            <img src={zelleQr} alt="Código Zelle para pagar a Katia A Perez Ponce" className="w-48" />
+          </a>
+          {copyError ? <p className="mt-3 text-sm text-danger">{copyError}</p> : null}
+          <div className="mt-4 flex flex-wrap gap-2">
+            <a className={`inline-flex ${buttonClass({ size: "small" })}`} href={ZELLE_PAY_URL} target="_blank" rel="noreferrer">
+              Pagar con Zelle
+            </a>
+            <Button type="button" tone="quiet" size="small" onClick={copyHandle}>
+              {copied ? "Destino copiado" : "Copiar destino"}
+            </Button>
+          </div>
         </>
       ) : (
         <p className="mt-2 text-sm text-muted">
           El estudio todavía no publica el destino de Zelle. El pago es obligatorio para apartar, y al enviarlo eliges el sabor de tu proteína.
         </p>
       )}
+      </div>
     </div>
   );
 }

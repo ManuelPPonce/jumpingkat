@@ -4,7 +4,7 @@ import { api } from "../api";
 import { usePageMeta } from "../hooks/usePageMeta";
 import jumperAir from "../img/jumper-air.png";
 import jumperSide from "../img/jumper-side.png";
-import { BookingForm } from "../components/BookingForm";
+import { BookingForm, ZellePay } from "../components/BookingForm";
 import { ClassCalendar, currentMonthKey } from "../components/ClassCalendar";
 import { Footer } from "../components/Footer";
 import { HeroVisual } from "../components/HeroVisual";
@@ -293,20 +293,25 @@ export function Landing() {
             <p className="mt-4 max-w-[680px] text-lg text-muted">Toca un día marcado y aparta un lugar libre. El pago por Zelle es obligatorio, y al pagarlo eliges el sabor de tu proteína.</p>
           </Reveal>
           <div className="mt-8 grid items-start gap-8 lg:grid-cols-[24rem_minmax(0,1fr)]">
-            <Reveal from="left" className="w-full lg:max-w-sm">
-              <ClassCalendar
-                classes={classes}
-                month={month}
-                onMonth={(next) => {
-                  setMonth(next);
-                  setSelectedId("");
-                }}
-                selectedId={selectedId}
-                onSelect={setSelectedId}
-                error={classesError}
-                onRetry={() => loadClasses(month)}
-              />
-            </Reveal>
+            <div className="grid w-full gap-8 lg:max-w-sm">
+              <Reveal from="left">
+                <ClassCalendar
+                  classes={classes}
+                  month={month}
+                  onMonth={(next) => {
+                    setMonth(next);
+                    setSelectedId("");
+                  }}
+                  selectedId={selectedId}
+                  onSelect={setSelectedId}
+                  error={classesError}
+                  onRetry={() => loadClasses(month)}
+                />
+              </Reveal>
+              <Reveal>
+                <ZellePay settings={meta?.settings} />
+              </Reveal>
+            </div>
             <Reveal from="right">
               <BookingForm meta={meta} selectedClass={selectedClass} onBooked={() => loadClasses(month)} onRetry={loadMeta} />
             </Reveal>

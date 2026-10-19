@@ -54,6 +54,12 @@ if (!bookingColumns.some((column) => column.name === "protein_flavor")) {
 }
 
 const SETTING_KEYS = ["zelleName", "zelleHandle", "classPrice", "location"];
+const DEFAULT_SETTINGS = {
+  zelleName: "Katia A Perez Ponce",
+  zelleHandle: "720 877 6988",
+  classPrice: "",
+  location: "",
+};
 
 function toBooking(row) {
   return {
@@ -215,16 +221,24 @@ export function deleteBooking(id) {
 }
 
 export function getSettings() {
-  const settings = {
-    zelleName: "JumpingKat",
-    zelleHandle: "",
-    classPrice: "",
-    location: "",
-  };
+  const stored = {};
   for (const row of db.prepare("SELECT key, value FROM settings").all()) {
-    if (SETTING_KEYS.includes(row.key)) settings[row.key] = row.value;
+    if (SETTING_KEYS.includes(row.key)) stored[row.key] = String(row.value ?? "").trim();
   }
-  return settings;
+  if (!stored.zelleHandle) {
+    return {
+      zelleName: DEFAULT_SETTINGS.zelleName,
+      zelleHandle: DEFAULT_SETTINGS.zelleHandle,
+      classPrice: stored.classPrice || "",
+      location: stored.location || "",
+    };
+  }
+  return {
+    zelleName: stored.zelleName || DEFAULT_SETTINGS.zelleName,
+    zelleHandle: stored.zelleHandle,
+    classPrice: stored.classPrice || "",
+    location: stored.location || "",
+  };
 }
 
 export function saveSettings(input) {
