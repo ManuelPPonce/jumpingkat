@@ -84,45 +84,45 @@ export function ClassPlanner({ version = 0 }) {
   }
 
   return (
-    <section className="rounded-3xl bg-[#181818] p-2">
-      <div className="rounded-2xl bg-[#1F1F1F] p-6">
+    <section className="rounded-3xl bg-raise p-2">
+      <div className="rounded-2xl bg-card p-6">
         <h2 className="text-2xl font-semibold">Programar clases</h2>
-        <p className="mt-3 max-w-[680px] text-sm text-[#9B9B9B]">
+        <p className="mt-3 max-w-[680px] text-sm text-muted">
           Cada registro ocupa un lugar. Cuando el cupo se llena, la clase se cierra y ya no acepta más personas.
         </p>
-        {error ? <p className="mt-4 text-sm text-[#FFB4B4]">{error}</p> : null}
-        {message ? <p className="mt-4 text-sm text-[#9B9B9B]">{message}</p> : null}
+        {error ? <p className="mt-4 text-sm text-danger">{error}</p> : null}
+        {message ? <p className="mt-4 text-sm text-muted">{message}</p> : null}
         <form className="mt-6 grid gap-4" onSubmit={publish} noValidate>
           <label>
             <span className="text-sm font-semibold">Nombre de la clase</span>
             <input className={`${fieldClass(Boolean(errors.title))} mt-2`} value={form.title} onChange={(event) => update("title", event.target.value)} />
-            {errors.title ? <p className="mt-2 text-sm text-[#FFB4B4]">{errors.title}</p> : null}
+            {errors.title ? <p className="mt-2 text-sm text-danger">{errors.title}</p> : null}
           </label>
           <div className="grid gap-4 md:grid-cols-3">
             <label>
               <span className="text-sm font-semibold">Fecha</span>
               <input type="date" min={todayISO()} className={`${fieldClass(Boolean(errors.classDate))} mt-2`} value={form.classDate} onChange={(event) => update("classDate", event.target.value)} />
-              {errors.classDate ? <p className="mt-2 text-sm text-[#FFB4B4]">{errors.classDate}</p> : null}
+              {errors.classDate ? <p className="mt-2 text-sm text-danger">{errors.classDate}</p> : null}
             </label>
             <label>
               <span className="text-sm font-semibold">Hora</span>
               <input type="time" className={`${fieldClass(Boolean(errors.classTime))} mt-2`} value={form.classTime} onChange={(event) => update("classTime", event.target.value)} />
-              {errors.classTime ? <p className="mt-2 text-sm text-[#FFB4B4]">{errors.classTime}</p> : null}
+              {errors.classTime ? <p className="mt-2 text-sm text-danger">{errors.classTime}</p> : null}
             </label>
             <label>
               <span className="text-sm font-semibold">Cupo</span>
               <input type="number" min="1" max="40" className={`${fieldClass(Boolean(errors.capacity))} mt-2`} value={form.capacity} onChange={(event) => update("capacity", event.target.value)} />
-              {errors.capacity ? <p className="mt-2 text-sm text-[#FFB4B4]">{errors.capacity}</p> : null}
+              {errors.capacity ? <p className="mt-2 text-sm text-danger">{errors.capacity}</p> : null}
             </label>
           </div>
           <Button type="submit" disabled={saving}>{saving ? "Publicando" : "Publicar clase"}</Button>
         </form>
         <div className="mt-6 grid gap-3">
-          {!classes.length ? <p className="text-sm text-[#9B9B9B]">Todavía no hay clases publicadas.</p> : null}
+          {!classes.length ? <p className="text-sm text-muted">Todavía no hay clases publicadas.</p> : null}
           {classes.map((item) => (
-            <article key={item.id} className="rounded-2xl bg-[#272727] p-4">
+            <article key={item.id} className="rounded-2xl bg-soft p-4">
               <h3 className="text-lg font-semibold">{item.title}</h3>
-              <p className="mt-2 text-sm text-[#9B9B9B]">
+              <p className="mt-2 text-sm text-muted">
                 {formatClassDate(item.classDate)} · {formatTime(item.classTime)}
               </p>
               <p className="mt-2 text-sm font-semibold">{item.state === "llena" ? "Llena" : `${item.taken} de ${item.capacity} lugares`}</p>

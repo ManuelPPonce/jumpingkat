@@ -12,7 +12,7 @@ export function Terms() {
       <Nav />
       <main id="contenido" className="mx-auto w-full max-w-[680px] px-6 py-16">
         <h1 className="text-4xl font-semibold">Términos</h1>
-        <div className="mt-6 grid gap-4 text-base text-[#9B9B9B]">
+        <div className="mt-6 grid gap-4 text-base text-muted">
           <p>Apartar una clase significa que enviaste el pago por Zelle, escribiste el nombre del envío y elegiste el sabor de tu proteína. El estado pasa a pagado cuando el estudio confirma que el dinero llegó.</p>
           <p>Sin ese pago no se aparta el lugar.</p>
           <p>Llega con ropa cómoda y agua. Puedes bajar la intensidad y descansar cuando lo necesites.</p>

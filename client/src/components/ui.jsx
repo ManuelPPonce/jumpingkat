@@ -1,7 +1,7 @@
 const tones = {
-  primary: "bg-[#D6FF3F] text-black hover:bg-white",
-  quiet: "bg-[#272727] text-white hover:bg-[#313131]",
-  danger: "bg-[#272727] text-[#FFB4B4] hover:bg-[#313131]",
+  primary: "bg-[#FFD60A] text-black hover:bg-[#FFF3B0]",
+  quiet: "bg-soft text-ink hover:bg-line",
+  danger: "bg-soft text-danger hover:bg-line",
 };
 
 const sizes = {
@@ -18,5 +18,5 @@ export function Button({ tone = "primary", size = "base", className = "", ...pro
 }
 
 export function fieldClass(invalid = false) {
-  return `w-full rounded-lg border bg-[#272727] px-3 py-2 text-base text-white transition-all duration-700 ease-fluid placeholder:text-[#9B9B9B] ring-focus ${invalid ? "border-[#FFB4B4]" : "border-[#313131]"}`;
+  return `w-full rounded-lg border bg-soft px-3 py-2 text-base text-ink transition-all duration-700 ease-fluid placeholder:text-muted ring-focus ${invalid ? "border-danger" : "border-line"}`;
 }

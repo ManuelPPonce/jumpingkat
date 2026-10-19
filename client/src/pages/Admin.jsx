@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { api, downloadCsv, formatClassDate, formatStamp, getToken, setToken, timeLabel } from "../api";
 import { ClassPlanner } from "../components/ClassPlanner";
 import { Mark } from "../components/Mark";
+import { ThemeToggle } from "../components/ThemeToggle";
 import { Button, fieldClass } from "../components/ui";
 import { usePageMeta } from "../hooks/usePageMeta";
 
@@ -154,12 +155,15 @@ export function Admin() {
           <Mark />
           JumpingKat
         </Link>
-        <p className="text-sm font-semibold" aria-current="page">Panel</p>
-        {authed ? (
-          <Button type="button" tone="quiet" size="small" onClick={logout}>
-            Salir
-          </Button>
-        ) : <span />}
+        <div className="flex items-center gap-3">
+          <p className="text-sm font-semibold" aria-current="page">Panel</p>
+          <ThemeToggle />
+          {authed ? (
+            <Button type="button" tone="quiet" size="small" onClick={logout}>
+              Salir
+            </Button>
+          ) : null}
+        </div>
       </header>
       <main id="contenido" className="mx-auto w-full max-w-6xl px-6 pb-16">
         {!ready ? <Skeleton /> : null}
@@ -168,22 +172,22 @@ export function Admin() {
           <div className="grid gap-6">
             <div>
               <h1 className="max-w-[680px] text-4xl font-semibold">Quién apartó y quién ya pagó</h1>
-              <p className="mt-4 max-w-[680px] text-base text-[#9B9B9B]">
+              <p className="mt-4 max-w-[680px] text-base text-muted">
                 Apartado: la persona ya envió el Zelle y eligió su proteína. Pagado: tú confirmaste que el dinero llegó.
               </p>
             </div>
-            {error ? <p className="text-sm text-[#FFB4B4]" role="alert">{error}</p> : null}
+            {error ? <p className="text-sm text-danger" role="alert">{error}</p> : null}
             <ClassPlanner version={scheduleVersion} />
             <div className="grid gap-3 md:grid-cols-3">
               <Stat label="Pendientes" value={counts.pendiente} />
               <Stat label="Apartados" value={counts.apartado} />
               <Stat label="Pagados" value={counts.pagado} />
             </div>
-            <form className="rounded-3xl bg-[#181818] p-2" onSubmit={saveSettings}>
-              <div className="rounded-2xl bg-[#1F1F1F] p-6">
+            <form className="rounded-3xl bg-raise p-2" onSubmit={saveSettings}>
+              <div className="rounded-2xl bg-card p-6">
                 <h2 className="text-2xl font-semibold">Datos de Zelle</h2>
                 {!settings.zelleHandle ? (
-                  <p className="mt-3 text-sm text-[#9B9B9B]">Publica el destino para que la agenda muestre a dónde enviar el pago.</p>
+                  <p className="mt-3 text-sm text-muted">Publica el destino para que la agenda muestre a dónde enviar el pago.</p>
                 ) : null}
                 <div className="mt-4 grid gap-4 md:grid-cols-2">
                   <SettingField id="zelle-name" label="Nombre que ve el alumno" value={draft.zelleName} onChange={(value) => setDraft((current) => ({ ...current, zelleName: value }))} />
@@ -193,7 +197,7 @@ export function Admin() {
                 </div>
                 <div className="mt-4 flex items-center gap-4">
                   <Button type="submit" disabled={savingSettings}>{savingSettings ? "Guardando" : "Guardar datos"}</Button>
-                  {notice ? <p className="text-sm text-[#9B9B9B]">{notice}</p> : null}
+                  {notice ? <p className="text-sm text-muted">{notice}</p> : null}
                 </div>
               </div>
             </form>
@@ -204,7 +208,7 @@ export function Admin() {
                     key={item.id}
                     type="button"
                     aria-pressed={filter === item.id}
-                    className={`rounded-full px-3 py-2 text-sm font-semibold transition-all duration-700 ease-fluid active:scale-[0.98] ring-focus ${filter === item.id ? "bg-[#D6FF3F] text-black" : "bg-[#272727] text-white hover:bg-[#313131]"}`}
+                    className={`rounded-full px-3 py-2 text-sm font-semibold transition-all duration-700 ease-fluid active:scale-[0.98] ring-focus ${filter === item.id ? "bg-[#FFD60A] text-black" : "bg-soft text-ink hover:bg-line"}`}
                     onClick={() => setFilter(item.id)}
                   >
                     {item.label}
@@ -233,14 +237,14 @@ export function Admin() {
             ) : null}
             <div className="grid gap-4">
               {visible.map((booking) => (
-                <article key={booking.id} className="rounded-2xl bg-[#181818] p-6">
+                <article key={booking.id} className="rounded-2xl bg-raise p-6">
                   <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
                     <div>
                       <h2 className="text-2xl font-semibold">{booking.name}</h2>
-                      <p className="mt-2 text-sm text-[#9B9B9B]">
-                        <a className="ring-focus rounded-full hover:text-white" href={`mailto:${booking.email}`}>{booking.email}</a>
+                      <p className="mt-2 text-sm text-muted">
+                        <a className="ring-focus rounded-full hover:text-ink" href={`mailto:${booking.email}`}>{booking.email}</a>
                         {" · "}
-                        <a className="ring-focus rounded-full hover:text-white" href={`tel:${booking.phone}`}>{booking.phone}</a>
+                        <a className="ring-focus rounded-full hover:text-ink" href={`tel:${booking.phone}`}>{booking.phone}</a>
                       </p>
                     </div>
                     <Status status={booking.status} />
@@ -253,13 +257,13 @@ export function Admin() {
                     <Info label="Referencia" value={booking.zelleReference || "Sin referencia"} />
                     <Info label="Registrado" value={formatStamp(booking.createdAt)} />
                   </dl>
-                  {booking.notes ? <p className="mt-4 text-sm text-[#9B9B9B]">Nota: {booking.notes}</p> : null}
-                  <p className="mt-4 text-sm text-[#9B9B9B]">
+                  {booking.notes ? <p className="mt-4 text-sm text-muted">Nota: {booking.notes}</p> : null}
+                  <p className="mt-4 text-sm text-muted">
                     {booking.status === "apartado" ? "Esta persona dice que ya envió el Zelle. Márcalo pagado cuando lo veas en tu cuenta." : null}
                     {booking.status === "pendiente" ? "Ocupa un lugar. El pago todavía no está confirmado. Si borras el registro, el lugar vuelve a abrirse." : null}
                     {booking.status === "pagado" ? "Pago confirmado por ti." : null}
                   </p>
-                  <p className="mt-2 text-xs text-[#9B9B9B]">Ficha {booking.id.slice(0, 8).toUpperCase()}</p>
+                  <p className="mt-2 text-xs text-muted">Ficha {booking.id.slice(0, 8).toUpperCase()}</p>
                   <div className="mt-4 flex flex-wrap gap-2">
                     <Button type="button" size="small" disabled={busyId === booking.id || booking.status === "pagado"} onClick={() => changeStatus(booking.id, "pagado")}>
                       Marcar pagado
@@ -320,15 +324,15 @@ function Login({ onSuccess }) {
   }
 
   return (
-    <form className="mx-auto max-w-[420px] rounded-3xl bg-[#181818] p-2" onSubmit={onSubmit} noValidate>
-      <div className="rounded-2xl bg-[#1F1F1F] p-6">
+    <form className="mx-auto max-w-[420px] rounded-3xl bg-raise p-2" onSubmit={onSubmit} noValidate>
+      <div className="rounded-2xl bg-card p-6">
         <h1 className="text-3xl font-semibold">Entrar al panel</h1>
-        <p className="mt-3 text-sm text-[#9B9B9B]">Aquí ves quién se registró y si el Zelle está pendiente, apartado o pagado.</p>
+        <p className="mt-3 text-sm text-muted">Aquí ves quién se registró y si el Zelle está pendiente, apartado o pagado.</p>
         <label className="mt-6 block" htmlFor="clave">
           <span className="text-sm font-semibold">Clave</span>
           <input id="clave" type="password" autoComplete="current-password" className={`${fieldClass(Boolean(error))} mt-2`} value={password} onChange={(event) => setPassword(event.target.value)} aria-invalid={Boolean(error)} />
         </label>
-        {error ? <p className="mt-2 text-sm text-[#FFB4B4]">{error}</p> : null}
+        {error ? <p className="mt-2 text-sm text-danger">{error}</p> : null}
         <Button className="mt-4" type="submit" disabled={saving}>{saving ? "Entrando" : "Entrar"}</Button>
       </div>
     </form>
@@ -346,8 +350,8 @@ function SettingField({ id, label, value, onChange, placeholder }) {
 
 function Stat({ label, value }) {
   return (
-    <div className="rounded-2xl bg-[#181818] p-6">
-      <p className="text-sm text-[#9B9B9B]">{label}</p>
+    <div className="rounded-2xl bg-raise p-6">
+      <p className="text-sm text-muted">{label}</p>
       <p className="mt-2 text-4xl font-semibold">{value}</p>
     </div>
   );
@@ -355,9 +359,9 @@ function Stat({ label, value }) {
 
 function Status({ status }) {
   const styles = {
-    pendiente: "bg-[#272727] text-[#9B9B9B]",
-    apartado: "bg-[#D6FF3F] text-black",
-    pagado: "bg-white text-black",
+    pendiente: "bg-soft text-muted",
+    apartado: "bg-[#FFD60A] text-black",
+    pagado: "bg-ink text-canvas",
   };
   const labels = { pendiente: "Pendiente", apartado: "Apartado", pagado: "Pagado" };
   return <p className={`w-max rounded-full px-3 py-2 text-sm font-semibold ${styles[status]}`}>{labels[status]}</p>;
@@ -366,7 +370,7 @@ function Status({ status }) {
 function Info({ label, value }) {
   return (
     <div>
-      <dt className="text-[#9B9B9B]">{label}</dt>
+      <dt className="text-muted">{label}</dt>
       <dd className="font-semibold">{value}</dd>
     </div>
   );
@@ -374,9 +378,9 @@ function Info({ label, value }) {
 
 function Empty({ title, text }) {
   return (
-    <div className="rounded-2xl bg-[#181818] p-6">
+    <div className="rounded-2xl bg-raise p-6">
       <h2 className="text-2xl font-semibold">{title}</h2>
-      <p className="mt-3 max-w-[680px] text-base text-[#9B9B9B]">{text}</p>
+      <p className="mt-3 max-w-[680px] text-base text-muted">{text}</p>
     </div>
   );
 }
@@ -384,9 +388,9 @@ function Empty({ title, text }) {
 function Skeleton() {
   return (
     <div className="grid gap-4" aria-hidden="true">
-      <div className="h-24 rounded-2xl bg-[#181818]" />
-      <div className="h-24 rounded-2xl bg-[#181818]" />
-      <div className="h-24 rounded-2xl bg-[#181818]" />
+      <div className="h-24 rounded-2xl bg-raise" />
+      <div className="h-24 rounded-2xl bg-raise" />
+      <div className="h-24 rounded-2xl bg-raise" />
     </div>
   );
 }

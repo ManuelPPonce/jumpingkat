@@ -12,7 +12,7 @@ export function Privacy() {
       <Nav />
       <main id="contenido" className="mx-auto w-full max-w-[680px] px-6 py-16">
         <h1 className="text-4xl font-semibold">Privacidad</h1>
-        <div className="mt-6 grid gap-4 text-base text-[#9B9B9B]">
+        <div className="mt-6 grid gap-4 text-base text-muted">
           <p>JumpingKat guarda los datos que escribes en la agenda: nombre, correo, teléfono, la clase, si es tu primera clase, el sabor de proteína, una nota y los datos del Zelle.</p>
           <p>Usamos esa información para organizar tu clase y confirmar el pago.</p>
           <p>No vendemos estos datos. El panel de registros solo lo abre el estudio con una clave.</p>

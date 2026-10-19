@@ -37,8 +37,8 @@ export function ClassCalendar({ classes, month, onMonth, selectedId, onSelect, e
   const cells = [...Array(firstWeekday).fill(null), ...Array.from({ length: dayCount }, (_, index) => index + 1)];
 
   return (
-    <div className="rounded-3xl bg-[#181818] p-2">
-      <div className="rounded-2xl bg-[#1F1F1F] p-4 md:p-6">
+    <div className="rounded-3xl bg-raise p-2">
+      <div className="rounded-2xl bg-card p-4 md:p-6">
         <div className="flex items-center justify-between gap-2">
           <Button type="button" tone="quiet" size="small" aria-label="Mes anterior" onClick={() => onMonth(shiftMonth(month, -1))} disabled={month <= currentMonthKey()}>
             <CaretLeft size={16} aria-hidden="true" />
@@ -50,14 +50,14 @@ export function ClassCalendar({ classes, month, onMonth, selectedId, onSelect, e
         </div>
         {error ? (
           <div className="mt-6">
-            <p className="text-sm text-[#FFB4B4]">No pudimos cargar el calendario.</p>
+            <p className="text-sm text-danger">No pudimos cargar el calendario.</p>
             <Button className="mt-3" type="button" size="small" onClick={onRetry}>
               Reintentar
             </Button>
           </div>
         ) : (
           <>
-            <div className="mt-4 grid grid-cols-7 gap-1 text-center text-xs text-[#9B9B9B]">
+            <div className="mt-4 grid grid-cols-7 gap-1 text-center text-xs text-muted">
               {WEEKDAYS.map((day) => (
                 <span key={day}>{day}</span>
               ))}
@@ -77,17 +77,17 @@ export function ClassCalendar({ classes, month, onMonth, selectedId, onSelect, e
                     disabled={!items.length || past}
                     aria-pressed={selectedDay}
                     onClick={() => onSelect(items.find((item) => item.open)?.id || items[0].id)}
-                    className={`ring-focus flex h-10 flex-col items-center justify-center rounded-lg text-sm font-semibold transition-all duration-700 ease-fluid active:scale-[0.98] disabled:cursor-not-allowed ${selectedDay ? "bg-[#D6FF3F] text-black" : hasOpen ? "bg-[#272727] text-white hover:bg-[#313131]" : "bg-transparent text-[#9B9B9B]"}`}
+                    className={`ring-focus flex h-10 flex-col items-center justify-center rounded-lg text-sm font-semibold transition-all duration-700 ease-fluid active:scale-[0.98] disabled:cursor-not-allowed ${selectedDay ? "bg-[#FFD60A] text-black" : hasOpen ? "bg-soft text-ink hover:bg-line" : "bg-transparent text-muted"}`}
                   >
                     {day}
-                    {hasOpen ? <span className={`mt-1 h-2 w-2 rounded-full ${selectedDay ? "bg-black" : "bg-[#D6FF3F]"}`} /> : null}
+                    {hasOpen ? <span className={`mt-1 h-2 w-2 rounded-full ${selectedDay ? "bg-black" : "bg-[#FFD60A]"}`} /> : null}
                   </button>
                 );
               })}
             </div>
             <div className="mt-6 grid gap-3">
-              {!activeDate ? <p className="text-sm text-[#9B9B9B]">Elige un día marcado para ver sus clases.</p> : null}
-              {activeDate && !dayClasses.length ? <p className="text-sm text-[#9B9B9B]">Este día no hay clase.</p> : null}
+              {!activeDate ? <p className="text-sm text-muted">Elige un día marcado para ver sus clases.</p> : null}
+              {activeDate && !dayClasses.length ? <p className="text-sm text-muted">Este día no hay clase.</p> : null}
               {dayClasses.map((item) => {
                 const chosen = item.id === selectedId;
                 return (
@@ -97,13 +97,13 @@ export function ClassCalendar({ classes, month, onMonth, selectedId, onSelect, e
                     disabled={!item.open}
                     aria-pressed={chosen}
                     onClick={() => onSelect(item.id)}
-                    className={`ring-focus rounded-2xl border p-3 text-left transition-all duration-700 ease-fluid active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60 ${chosen ? "border-[#D6FF3F] bg-[#272727]" : "border-[#313131] hover:bg-[#272727]"}`}
+                    className={`ring-focus rounded-2xl border p-3 text-left transition-all duration-700 ease-fluid active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60 ${chosen ? "border-blue bg-soft" : "border-line hover:bg-soft"}`}
                   >
                     <span className="block text-base font-semibold">{item.title}</span>
-                    <span className="mt-1 block text-sm text-[#9B9B9B]">
+                    <span className="mt-1 block text-sm text-muted">
                       {formatClassDate(item.classDate)} · {formatTime(item.classTime)}
                     </span>
-                    <span className={`mt-2 block text-sm font-semibold ${item.open ? "text-white" : "text-[#9B9B9B]"}`}>
+                    <span className={`mt-2 block text-sm font-semibold ${item.open ? "text-ink" : "text-muted"}`}>
                       {item.state === "pasada" ? "Esta clase ya pasó" : item.open ? `${item.taken} de ${item.capacity} lugares` : "Llena"}
                     </span>
                   </button>

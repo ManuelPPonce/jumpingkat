@@ -2,14 +2,14 @@ import { useEffect, useState } from "react";
 import { Brain, CaretDown, Flame, Heart, Person, PersonSimpleRun, Scales } from "@phosphor-icons/react";
 import { api } from "../api";
 import { usePageMeta } from "../hooks/usePageMeta";
-import jumperAir from "../img/jumper-air.jpg";
-import jumperSide from "../img/jumper-side.jpg";
+import jumperAir from "../img/jumper-air.png";
+import jumperSide from "../img/jumper-side.png";
 import { BookingForm } from "../components/BookingForm";
 import { ClassCalendar, currentMonthKey } from "../components/ClassCalendar";
 import { Footer } from "../components/Footer";
 import { HeroVisual } from "../components/HeroVisual";
 import { Nav } from "../components/Nav";
-import { Reveal } from "../components/Reveal";
+import { Drift, Reveal } from "../components/Reveal";
 import { Tagline } from "../components/Tagline";
 import { buttonClass } from "../components/ui";
 
@@ -126,63 +126,73 @@ export function Landing() {
     <>
       <Nav />
       <main id="contenido">
-        <Reveal as="section" id="inicio" className="mx-auto grid w-full max-w-6xl items-center gap-12 px-6 py-16 md:py-24 lg:grid-cols-[1.05fr_0.95fr]">
+        <section id="inicio" className="mx-auto grid w-full max-w-6xl items-center gap-12 px-6 py-16 md:py-24 lg:grid-cols-[1.05fr_0.95fr]">
           <div>
-            <p className="text-sm font-semibold text-[#D6FF3F]">Clase personalizada</p>
+            <Reveal>
+              <p className="text-sm font-semibold text-blue">Clase personalizada</p>
+            </Reveal>
             <h1 className="mt-4 max-w-[680px] text-3xl font-semibold sm:text-4xl md:text-5xl lg:text-6xl">
-              {["Tu clase de jumping", "personalizada,", "a tu ritmo."].map((line) => (
-                <span key={line} className="block bg-gradient-to-r from-white to-[#9B9B9B] bg-clip-text text-transparent">
-                  {line}
-                </span>
+              {["Tu clase de jumping", "personalizada,", "a tu ritmo."].map((line, index) => (
+                <Reveal key={line} as="span" delay={0.1 + index * 0.1} className="block">
+                  <span className="block bg-gradient-to-r from-ink to-muted bg-clip-text text-transparent">{line}</span>
+                </Reveal>
               ))}
             </h1>
-            <p className="mt-6 max-w-[680px] text-lg text-[#9B9B9B]">
-              Un entrenamiento con música, coordinación y resistencia. Empiezas sin experiencia y avanzas según tu cuerpo.
-            </p>
-            <a className={`inline-flex ${buttonClass()} mt-6`} href="#agenda">
-              Apartar mi clase
-            </a>
-            <p className="mt-6 max-w-[680px] text-sm text-[#9B9B9B]">Sin experiencia previa. La técnica va antes que la velocidad.</p>
+            <Reveal delay={0.4}>
+              <p className="mt-6 max-w-[680px] text-lg text-muted">
+                Un entrenamiento con música, coordinación y resistencia. Empiezas sin experiencia y avanzas según tu cuerpo.
+              </p>
+              <a className={`inline-flex ${buttonClass()} mt-6`} href="#agenda">
+                Apartar mi clase
+              </a>
+              <p className="mt-6 max-w-[680px] text-sm text-muted">Sin experiencia previa. La técnica va antes que la velocidad.</p>
+            </Reveal>
           </div>
-          <HeroVisual settings={meta?.settings} />
-        </Reveal>
+          <Reveal from="right" delay={0.16}>
+            <Drift range={36}>
+              <HeroVisual settings={meta?.settings} />
+            </Drift>
+          </Reveal>
+        </section>
 
         <section className="mx-auto grid w-full max-w-6xl gap-8 px-6 py-16 md:grid-cols-2 md:py-24">
           <Reveal>
             <h2 className="max-w-[680px] text-4xl font-semibold">Mucho más que saltar</h2>
-            <p className="mt-4 max-w-[680px] text-lg text-[#9B9B9B]">
+            <p className="mt-4 max-w-[680px] text-lg text-muted">
               ¿Crees que el jumping es solo brincar en un trampolín? Es un entrenamiento cardiovascular que combina música, coordinación, resistencia y diversión.
             </p>
           </Reveal>
-          <Reveal>
-            <p className="max-w-[680px] text-base text-[#9B9B9B]">
-              Trabajas el corazón, las piernas y la coordinación mientras sigue la música. La clase es para ti, así que la intensidad se adapta a tu cuerpo.
-            </p>
+          <div>
+            <Reveal delay={0.12}>
+              <p className="max-w-[680px] text-base text-muted">
+                Trabajas el corazón, las piernas y la coordinación mientras sigue la música. La clase es para ti, así que la intensidad se adapta a tu cuerpo.
+              </p>
+            </Reveal>
             <ul className="mt-6 flex flex-wrap gap-2">
-              {["Música", "Coordinación", "Resistencia", "Diversión"].map((item) => (
-                <li key={item} className="rounded-full bg-[#181818] px-3 py-2 text-sm font-semibold">
+              {["Música", "Coordinación", "Resistencia", "Diversión"].map((item, index) => (
+                <Reveal key={item} as="li" delay={0.2 + index * 0.08} className="rounded-full bg-raise px-3 py-2 text-sm font-semibold">
                   {item}
-                </li>
+                </Reveal>
               ))}
             </ul>
-          </Reveal>
+          </div>
         </section>
 
-        <section id="beneficios" className="bg-[#181818] px-6 py-24">
+        <section id="beneficios" className="bg-raise px-6 py-24">
           <div className="mx-auto w-full max-w-6xl">
             <Reveal>
               <h2 className="max-w-[680px] text-4xl font-semibold">Por qué practicar jumping</h2>
-              <p className="mt-4 max-w-[680px] text-lg text-[#9B9B9B]">Una clase suma ritmo, esfuerzo y control. Estos son los cambios que puedes notar.</p>
+              <p className="mt-4 max-w-[680px] text-lg text-muted">Una clase suma ritmo, esfuerzo y control. Estos son los cambios que puedes notar.</p>
             </Reveal>
             <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {BENEFITS.map((benefit) => {
+              {BENEFITS.map((benefit, index) => {
                 const Icon = benefit.icon;
                 return (
-                <Reveal key={benefit.title}>
-                  <article className="h-full rounded-2xl bg-[#1F1F1F] p-6 transition-all duration-700 ease-fluid hover:-translate-y-1">
-                    <Icon size={24} aria-hidden="true" />
+                <Reveal key={benefit.title} delay={index * 0.08}>
+                  <article className="h-full rounded-2xl bg-card p-6 transition-all duration-700 ease-fluid hover:-translate-y-1">
+                    <Icon size={24} className="text-blue" aria-hidden="true" />
                     <h3 className="mt-6 text-xl font-semibold">{benefit.title}</h3>
-                    <p className="mt-3 text-base text-[#9B9B9B]">{benefit.text}</p>
+                    <p className="mt-3 text-base text-muted">{benefit.text}</p>
                   </article>
                 </Reveal>
                 );
@@ -198,43 +208,43 @@ export function Landing() {
             <div>
               <Reveal>
                 <h2 className="max-w-[680px] text-4xl font-semibold">Cómo apartas tu clase</h2>
-                <p className="mt-4 max-w-[680px] text-lg text-[#9B9B9B]">
+                <p className="mt-4 max-w-[680px] text-lg text-muted">
                   Puedes entrenar, mejorar tu resistencia y disfrutar de la música. Eliges la hora, apartas por Zelle y entras a moverte mejor.
                 </p>
               </Reveal>
               <ol className="mt-8 grid list-none gap-8">
-                {STEPS.map((step) => (
-                  <Reveal key={step.number} as="li" className="grid gap-4 md:grid-cols-[96px_1fr] md:items-start">
-                    <span className="text-5xl font-semibold text-[#9B9B9B]">{step.number}</span>
+                {STEPS.map((step, index) => (
+                  <Reveal key={step.number} as="li" delay={index * 0.12} className="grid gap-4 md:grid-cols-[96px_1fr] md:items-start">
+                    <span className="text-5xl font-semibold text-muted">{step.number}</span>
                     <div className="max-w-[680px]">
                       <h3 className="text-2xl font-semibold">{step.title}</h3>
-                      <p className="mt-3 text-base text-[#9B9B9B]">{step.text}</p>
+                      <p className="mt-3 text-base text-muted">{step.text}</p>
                     </div>
                   </Reveal>
                 ))}
               </ol>
             </div>
-            <div className="grid w-full max-w-md grid-cols-2 gap-4">
-              <figure className="overflow-hidden rounded-3xl bg-[#181818] p-2">
-                <img src={jumperAir} alt="Persona saltando sobre un trampolín de jumping" className="aspect-[3/4] w-full rounded-2xl object-cover object-top" />
-              </figure>
-              <figure className="overflow-hidden rounded-3xl bg-[#181818] p-2">
-                <img src={jumperSide} alt="Persona rebotando sobre un trampolín de jumping" className="aspect-[3/4] w-full rounded-2xl object-cover object-top" />
-              </figure>
-            </div>
+            <Reveal from="right" className="grid w-full max-w-md grid-cols-2 items-end gap-4">
+              <Drift range={42}>
+                <img src={jumperAir} alt="Persona saltando sobre un trampolín de jumping" className="w-full object-contain" />
+              </Drift>
+              <Drift range={-28}>
+                <img src={jumperSide} alt="Persona rebotando sobre un trampolín de jumping" className="w-full object-contain" />
+              </Drift>
+            </Reveal>
           </div>
         </section>
 
-        <section id="primera-clase" className="bg-[#181818] px-6 py-24">
+        <section id="primera-clase" className="bg-raise px-6 py-24">
           <div className="mx-auto grid w-full max-w-6xl gap-8 lg:grid-cols-[0.8fr_1.2fr]">
             <Reveal>
               <h2 className="max-w-[680px] text-4xl font-semibold">Si es tu primera clase</h2>
-              <p className="mt-4 max-w-[680px] text-lg text-[#9B9B9B]">Llegas como estás. El instructor marca la técnica y tú marcas hasta dónde llegas hoy.</p>
+              <p className="mt-4 max-w-[680px] text-lg text-muted">Llegas como estás. El instructor marca la técnica y tú marcas hasta dónde llegas hoy.</p>
             </Reveal>
             <ol className="grid list-none gap-3">
               {TIPS.map((tip, index) => (
-                <Reveal key={tip} as="li" className="rounded-2xl bg-[#1F1F1F] p-4">
-                  <p className="text-sm font-semibold text-[#D6FF3F]">{String(index + 1).padStart(2, "0")}</p>
+                <Reveal key={tip} as="li" delay={index * 0.06} className="rounded-2xl bg-card p-4">
+                  <p className="text-sm font-semibold text-blue">{String(index + 1).padStart(2, "0")}</p>
                   <p className="mt-2 text-base">{tip}</p>
                 </Reveal>
               ))}
@@ -247,14 +257,16 @@ export function Landing() {
             <h2 className="max-w-[680px] text-4xl font-semibold">Preguntas frecuentes</h2>
           </Reveal>
           <div className="mt-8 grid max-w-[680px] gap-3">
-            {FAQS.map((item) => (
-              <details key={item.q} className="group rounded-2xl bg-[#181818] p-4">
+            {FAQS.map((item, index) => (
+              <Reveal key={item.q} delay={index * 0.05}>
+                <details className="group rounded-2xl bg-raise p-4">
                 <summary className="ring-focus flex cursor-pointer list-none items-center justify-between gap-4 text-lg font-semibold">
                   {item.q}
-                  <CaretDown size={20} className="shrink-0 text-[#9B9B9B] transition-transform duration-700 ease-fluid group-open:rotate-180" aria-hidden="true" />
+                  <CaretDown size={20} className="shrink-0 text-muted transition-transform duration-700 ease-fluid group-open:rotate-180" aria-hidden="true" />
                 </summary>
-                <p className="mt-4 text-base text-[#9B9B9B]">{item.a}</p>
-              </details>
+                <p className="mt-4 text-base text-muted">{item.a}</p>
+                </details>
+              </Reveal>
             ))}
           </div>
         </section>
@@ -262,10 +274,10 @@ export function Landing() {
         <section id="agenda" className="mx-auto w-full max-w-6xl px-6 py-16 md:py-24">
           <Reveal>
             <h2 className="max-w-[680px] text-4xl font-semibold">Elige tu clase</h2>
-            <p className="mt-4 max-w-[680px] text-lg text-[#9B9B9B]">Toca un día marcado y aparta un lugar libre. El pago por Zelle es obligatorio, y al pagarlo eliges el sabor de tu proteína.</p>
+            <p className="mt-4 max-w-[680px] text-lg text-muted">Toca un día marcado y aparta un lugar libre. El pago por Zelle es obligatorio, y al pagarlo eliges el sabor de tu proteína.</p>
           </Reveal>
           <div className="mt-8 grid items-start gap-8 lg:grid-cols-[24rem_minmax(0,1fr)]">
-            <div className="w-full lg:max-w-sm">
+            <Reveal from="left" className="w-full lg:max-w-sm">
               <ClassCalendar
                 classes={classes}
                 month={month}
@@ -278,8 +290,10 @@ export function Landing() {
                 error={classesError}
                 onRetry={() => loadClasses(month)}
               />
-            </div>
-            <BookingForm meta={meta} selectedClass={selectedClass} onBooked={() => loadClasses(month)} onRetry={loadMeta} />
+            </Reveal>
+            <Reveal from="right">
+              <BookingForm meta={meta} selectedClass={selectedClass} onBooked={() => loadClasses(month)} onRetry={loadMeta} />
+            </Reveal>
           </div>
         </section>
       </main>

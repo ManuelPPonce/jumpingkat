@@ -10,6 +10,18 @@
     />
     <meta name="robots" content="index,follow" />
     <meta name="theme-color" content="#000000" />
+    <script>
+      (function () {
+        var theme = "dark";
+        try {
+          var saved = localStorage.getItem("jumpingkat.theme");
+          if (saved === "light" || saved === "dark") theme = saved;
+        } catch (e) {}
+        document.documentElement.dataset.theme = theme;
+        var meta = document.querySelector('meta[name="theme-color"]');
+        if (meta) meta.setAttribute("content", theme === "light" ? "#ffffff" : "#000000");
+      })();
+    </script>
     <meta property="og:title" content="Clases personalizadas de jumping | JumpingKat" />
     <meta
       property="og:description"

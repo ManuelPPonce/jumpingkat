@@ -36,7 +36,7 @@ function Field({ id, label, error, children }) {
       </label>
       <div className="mt-2">{children}</div>
       {error ? (
-        <p id={`${id}-error`} className="mt-2 text-sm text-[#FFB4B4]">
+        <p id={`${id}-error`} className="mt-2 text-sm text-danger">
           {error}
         </p>
       ) : null}
@@ -48,8 +48,8 @@ export function BookingForm({ meta, selectedClass, onBooked, onRetry }) {
   if (!meta) return <FormSkeleton />;
   if (meta.error) {
     return (
-      <div className="rounded-3xl bg-[#181818] p-2">
-        <div className="rounded-2xl bg-[#1F1F1F] p-6">
+      <div className="rounded-3xl bg-raise p-2">
+        <div className="rounded-2xl bg-card p-6">
           <p className="text-base">No pudimos cargar los horarios.</p>
           <Button className="mt-4" type="button" onClick={onRetry}>
             Reintentar
@@ -120,27 +120,27 @@ function Form({ meta, selectedClass, onBooked }) {
 
   if (booking) {
     return (
-      <div className="rounded-3xl bg-[#181818] p-2" aria-live="polite">
-        <div className="rounded-2xl bg-[#1F1F1F] p-6">
-          <p className="text-sm font-semibold text-[#D6FF3F]">Registro guardado</p>
+      <div className="rounded-3xl bg-raise p-2" aria-live="polite">
+        <div className="rounded-2xl bg-card p-6">
+          <p className="text-sm font-semibold text-blue">Registro guardado</p>
           <h3 className="mt-3 text-3xl font-semibold">{booking.name}, tu lugar quedó apartado.</h3>
-          <p className="mt-4 max-w-[680px] text-base text-[#9B9B9B]">
+          <p className="mt-4 max-w-[680px] text-base text-muted">
             El estudio lo marca pagado cuando ve el depósito en Zelle. Tu proteína es {booking.proteinFlavor}.
           </p>
           <dl className="mt-6 grid gap-3 text-sm">
             <div className="flex justify-between gap-4">
-              <dt className="text-[#9B9B9B]">Clase</dt>
+              <dt className="text-muted">Clase</dt>
               <dd className="text-right font-semibold">
                 {booking.classTitle ? `${booking.classTitle}, ` : ""}
                 {formatClassDate(booking.classDate)} · {formatTime(booking.classTime)}
               </dd>
             </div>
             <div className="flex justify-between gap-4">
-              <dt className="text-[#9B9B9B]">Proteína</dt>
+              <dt className="text-muted">Proteína</dt>
               <dd className="text-right font-semibold">{booking.proteinFlavor}</dd>
             </div>
             <div className="flex justify-between gap-4">
-              <dt className="text-[#9B9B9B]">Referencia</dt>
+              <dt className="text-muted">Referencia</dt>
               <dd className="font-semibold">{String(booking.id).slice(0, 8).toUpperCase()}</dd>
             </div>
           </dl>
@@ -162,9 +162,9 @@ function Form({ meta, selectedClass, onBooked }) {
   }
 
   return (
-    <form className="rounded-3xl bg-[#181818] p-2" noValidate onSubmit={onSubmit}>
-      <div className="relative rounded-2xl bg-[#1F1F1F] p-6">
-        <div aria-live="polite">{formError ? <p className="mb-4 text-sm text-[#FFB4B4]">{formError}</p> : null}</div>
+    <form className="rounded-3xl bg-raise p-2" noValidate onSubmit={onSubmit}>
+      <div className="relative rounded-2xl bg-card p-6">
+        <div aria-live="polite">{formError ? <p className="mb-4 text-sm text-danger">{formError}</p> : null}</div>
         <ZelleBox settings={settings} copied={copied} onCopy={copyHandle} />
         <div className="mt-6 grid gap-4">
           <Field id="nombre" label="Nombre" error={errors.name}>
@@ -178,13 +178,13 @@ function Form({ meta, selectedClass, onBooked }) {
               <input id="telefono" type="tel" className={fieldClass(Boolean(errors.phone))} autoComplete="tel" placeholder="555 014 2837" value={values.phone} aria-invalid={Boolean(errors.phone)} aria-describedby={errors.phone ? "telefono-error" : undefined} onChange={(event) => update("phone", event.target.value)} />
             </Field>
           </div>
-          {errors.classId ? <p className="text-sm text-[#FFB4B4]">{errors.classId}</p> : null}
+          {errors.classId ? <p className="text-sm text-danger">{errors.classId}</p> : null}
           <ChosenClass selectedClass={selectedClass} />
-          <label className="choice flex cursor-pointer items-start gap-3 rounded-2xl border border-[#313131] p-4">
-            <input type="checkbox" className="mt-1 h-4 w-4 accent-[#D6FF3F]" checked={values.firstClass} onChange={(event) => update("firstClass", event.target.checked)} />
+          <label className="choice flex cursor-pointer items-start gap-3 rounded-2xl border border-line p-4">
+            <input type="checkbox" className="mt-1 h-4 w-4 accent-[#FFD60A]" checked={values.firstClass} onChange={(event) => update("firstClass", event.target.checked)} />
             <span>
               <span className="block text-base font-semibold">Es mi primera clase</span>
-              <span className="mt-1 block text-sm text-[#9B9B9B]">Empezamos por lo básico y ajustamos la intensidad.</span>
+              <span className="mt-1 block text-sm text-muted">Empezamos por lo básico y ajustamos la intensidad.</span>
             </span>
           </label>
           <div className="grid gap-4 md:grid-cols-2">
@@ -216,12 +216,12 @@ function Form({ meta, selectedClass, onBooked }) {
 
 function ChosenClass({ selectedClass }) {
   if (!selectedClass) {
-    return <p className="rounded-2xl bg-[#272727] p-4 text-sm text-[#9B9B9B]">Elige una clase abierta en el calendario.</p>;
+    return <p className="rounded-2xl bg-soft p-4 text-sm text-muted">Elige una clase abierta en el calendario.</p>;
   }
   return (
-    <p className="rounded-2xl bg-[#272727] p-4 text-sm">
+    <p className="rounded-2xl bg-soft p-4 text-sm">
       <span className="block font-semibold">{selectedClass.title}</span>
-      <span className="mt-1 block text-[#9B9B9B]">
+      <span className="mt-1 block text-muted">
         {formatClassDate(selectedClass.classDate)} · {formatTime(selectedClass.classTime)}
       </span>
       <span className="mt-2 block font-semibold">
@@ -235,22 +235,22 @@ function ChosenClass({ selectedClass }) {
 
 function ZelleBox({ settings, copied, onCopy }) {
   return (
-    <div className="rounded-2xl bg-[#272727] p-4">
+    <div className="rounded-2xl bg-soft p-4">
       <h3 className="text-base font-semibold">A dónde enviar el Zelle</h3>
       {settings.zelleHandle ? (
         <>
-          <p className="mt-2 text-sm text-[#9B9B9B]">
+          <p className="mt-2 text-sm text-muted">
             Envía el pago a {settings.zelleName || "JumpingKat"}
             {settings.classPrice ? `. Monto: ${settings.classPrice}` : ""}. Sin ese pago no se aparta el lugar. En la nota escribe tu nombre y la fecha de la clase.
           </p>
-          {settings.location ? <p className="mt-2 text-sm text-[#9B9B9B]">La clase es en {settings.location}.</p> : null}
+          {settings.location ? <p className="mt-2 text-sm text-muted">La clase es en {settings.location}.</p> : null}
           <p className="mt-3 text-xl font-semibold">{settings.zelleHandle}</p>
           <Button className="mt-3" type="button" tone="quiet" size="small" onClick={onCopy}>
             {copied ? "Destino copiado" : "Copiar destino"}
           </Button>
         </>
       ) : (
-        <p className="mt-2 text-sm text-[#9B9B9B]">
+        <p className="mt-2 text-sm text-muted">
           El estudio todavía no publica el destino de Zelle. El pago es obligatorio para apartar, y al enviarlo eliges el sabor de tu proteína.
         </p>
       )}
@@ -268,7 +268,7 @@ function FlavorList({ flavors, value, error, onChange }) {
           return (
             <label
               key={flavor}
-              className={`ring-focus cursor-pointer rounded-2xl border px-3 py-2 text-center text-sm font-semibold transition-all duration-700 ease-fluid active:scale-[0.98] ${checked ? "border-[#D6FF3F] bg-[#D6FF3F] text-black" : "border-[#313131] bg-[#272727] text-white hover:bg-[#313131]"}`}
+              className={`ring-focus cursor-pointer rounded-2xl border px-3 py-2 text-center text-sm font-semibold transition-all duration-700 ease-fluid active:scale-[0.98] ${checked ? "border-[#FFD60A] bg-[#FFD60A] text-black" : "border-line bg-soft text-ink hover:bg-line"}`}
             >
               <input className="sr-only" type="radio" name="protein" checked={checked} onChange={() => onChange(flavor)} />
               {flavor}
@@ -276,20 +276,20 @@ function FlavorList({ flavors, value, error, onChange }) {
           );
         })}
       </div>
-      {error ? <p className="mt-2 text-sm text-[#FFB4B4]">{error}</p> : null}
+      {error ? <p className="mt-2 text-sm text-danger">{error}</p> : null}
     </fieldset>
   );
 }
 
 function FormSkeleton() {
   return (
-    <div className="rounded-3xl bg-[#181818] p-2" aria-hidden="true">
-      <div className="rounded-2xl bg-[#1F1F1F] p-6">
-        <div className="h-6 w-40 rounded-lg bg-[#272727]" />
-        <div className="mt-6 h-24 rounded-2xl bg-[#272727]" />
-        <div className="mt-4 h-12 rounded-lg bg-[#272727]" />
-        <div className="mt-4 h-12 rounded-lg bg-[#272727]" />
-        <div className="mt-4 h-12 w-40 rounded-full bg-[#272727]" />
+    <div className="rounded-3xl bg-raise p-2" aria-hidden="true">
+      <div className="rounded-2xl bg-card p-6">
+        <div className="h-6 w-40 rounded-lg bg-soft" />
+        <div className="mt-6 h-24 rounded-2xl bg-soft" />
+        <div className="mt-4 h-12 rounded-lg bg-soft" />
+        <div className="mt-4 h-12 rounded-lg bg-soft" />
+        <div className="mt-4 h-12 w-40 rounded-full bg-soft" />
       </div>
     </div>
   );

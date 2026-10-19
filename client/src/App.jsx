@@ -19,7 +19,7 @@ class ErrorBoundary extends Component {
       return (
         <main id="contenido" className="mx-auto max-w-[680px] px-6 py-24">
           <h1 className="text-4xl font-semibold">No pudimos mostrar esta página.</h1>
-          <p className="mt-4 text-base text-[#9B9B9B]">Recarga e inténtalo otra vez. Si sigue igual, vuelve al inicio.</p>
+          <p className="mt-4 text-base text-muted">Recarga e inténtalo otra vez. Si sigue igual, vuelve al inicio.</p>
           <a className={`inline-flex ${buttonClass()} mt-6`} href="/">
             Volver al inicio
           </a>
@@ -35,7 +35,7 @@ export default function App() {
     <ErrorBoundary>
       <a
         href="#contenido"
-        className="sr-only ring-focus focus:not-sr-only focus:fixed focus:left-6 focus:top-6 focus:z-[60] focus:rounded-full focus:bg-[#D6FF3F] focus:px-3 focus:py-2 focus:text-base focus:font-semibold focus:text-black"
+        className="sr-only ring-focus focus:not-sr-only focus:fixed focus:left-6 focus:top-6 focus:z-[60] focus:rounded-full focus:bg-[#FFD60A] focus:px-3 focus:py-2 focus:text-base focus:font-semibold focus:text-black"
       >
         Saltar al contenido
       </a>

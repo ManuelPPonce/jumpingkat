@@ -9,12 +9,12 @@ export function Footer() {
           <Mark />
           JumpingKat
         </Link>
-        <p className="max-w-[680px] text-sm text-[#9B9B9B]">Clases personalizadas de jumping. Música, coordinación y resistencia a tu ritmo.</p>
+        <p className="max-w-[680px] text-sm text-muted">Clases personalizadas de jumping. Música, coordinación y resistencia a tu ritmo.</p>
         <nav className="flex gap-4 text-sm" aria-label="Legal">
-          <Link className="ring-focus rounded-full text-[#9B9B9B] transition-all duration-700 ease-fluid hover:text-white" to="/privacidad">
+          <Link className="ring-focus rounded-full text-muted transition-all duration-700 ease-fluid hover:text-ink" to="/privacidad">
             Privacidad
           </Link>
-          <Link className="ring-focus rounded-full text-[#9B9B9B] transition-all duration-700 ease-fluid hover:text-white" to="/terminos">
+          <Link className="ring-focus rounded-full text-muted transition-all duration-700 ease-fluid hover:text-ink" to="/terminos">
             Términos
           </Link>
         </nav>

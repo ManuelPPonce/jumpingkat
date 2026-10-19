@@ -1,4 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { useMotionValueEvent, useScroll } from "motion/react";
+import { useReduceMotion } from "./Reveal";
 
 const LINES = [
   ["Aquí", "no", "se", "trata", "de", "saltar", "más", "alto."],
@@ -8,57 +10,43 @@ const LINES = [
 const WORDS = LINES.flat();
 
 export function Tagline() {
-  const [node, setNode] = useState(null);
-  const [active, setActive] = useState(() => (window.matchMedia("(prefers-reduced-motion: reduce)").matches ? WORDS.length : 0));
+  const reduce = useReduceMotion();
+  const ref = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start 0.82", "start 0.34"],
+  });
+  const [active, setActive] = useState(0);
+
+  useMotionValueEvent(scrollYProgress, "change", (value) => {
+    if (reduce) return;
+    setActive(Math.floor(value * WORDS.length));
+  });
 
   useEffect(() => {
-    if (!node) return undefined;
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    if (reduce) {
       setActive(WORDS.length);
-      return undefined;
+      return;
     }
+    setActive(Math.floor(scrollYProgress.get() * WORDS.length));
+  }, [reduce, scrollYProgress]);
 
-    let frame = 0;
-    const update = () => {
-      const rect = node.getBoundingClientRect();
-      const start = window.innerHeight * 0.82;
-      const end = window.innerHeight * 0.34;
-      const progress = Math.min(1, Math.max(0, (start - rect.top) / (start - end)));
-      setActive(Math.floor(progress * WORDS.length));
-    };
-    const onScroll = () => {
-      if (frame) return;
-      frame = window.requestAnimationFrame(() => {
-        update();
-        frame = 0;
-      });
-    };
-
-    update();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    window.addEventListener("resize", onScroll);
-    return () => {
-      window.removeEventListener("scroll", onScroll);
-      window.removeEventListener("resize", onScroll);
-      if (frame) window.cancelAnimationFrame(frame);
-    };
-  }, [node]);
-
+  const shown = reduce ? WORDS.length : active;
   let index = 0;
 
   return (
-    <section ref={setNode} className="flex min-h-[70vh] items-center px-6 py-24" aria-label="Idea central">
+    <section ref={ref} className="flex min-h-[70vh] items-center px-6 py-24" aria-label="Idea central">
       <h2 className="mx-auto max-w-[680px] text-4xl font-semibold md:text-5xl">
         {LINES.map((line) => (
           <span key={line.join(" ")} className="mb-3 block">
             {line.map((word) => {
               const wordIndex = index;
               index += 1;
-              const on = wordIndex < active;
+              const on = wordIndex < shown;
               return (
                 <span
                   key={`${word}-${wordIndex}`}
-                  className={`transition-colors duration-[800ms] ease-fluid ${on ? "text-white" : "text-white/30"}`}
+                  className={`transition-colors duration-[800ms] ease-fluid ${on ? "text-ink" : "text-ink/30"}`}
                 >
                   {word}{" "}
                 </span>
