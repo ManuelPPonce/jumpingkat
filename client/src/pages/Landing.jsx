@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Brain, CaretDown, Flame, Heart, Person, PersonSimpleRun, Scales } from "@phosphor-icons/react";
 import { api } from "../api";
 import { usePageMeta } from "../hooks/usePageMeta";
+import hero from "../img/hero.png";
 import jumperAir from "../img/jumper-air.png";
 import jumperSide from "../img/jumper-side.png";
 import { BookingForm } from "../components/BookingForm";
@@ -126,7 +127,10 @@ export function Landing() {
     <>
       <Nav />
       <main id="contenido">
-        <section id="inicio" className="mx-auto grid w-full max-w-6xl items-center gap-12 px-6 py-16 md:py-24 lg:grid-cols-[1.05fr_0.95fr]">
+        <section id="inicio" className="relative overflow-hidden">
+          <img src={hero} alt="" className="pointer-events-none absolute inset-0 h-full w-full object-cover" />
+          <div className="pointer-events-none absolute inset-0 bg-canvas/50" />
+          <div className="relative mx-auto grid w-full max-w-6xl items-center gap-12 px-6 py-16 md:py-24 lg:grid-cols-[1.05fr_0.95fr]">
           <div>
             <Reveal>
               <p className="text-sm font-semibold text-blue">Clase personalizada</p>
@@ -150,9 +154,10 @@ export function Landing() {
           </div>
           <Reveal from="right" delay={0.16}>
             <Drift range={36}>
-              <HeroVisual settings={meta?.settings} />
+              <HeroVisual />
             </Drift>
           </Reveal>
+          </div>
         </section>
 
         <section className="mx-auto grid w-full max-w-6xl gap-8 px-6 py-16 md:grid-cols-2 md:py-24">
