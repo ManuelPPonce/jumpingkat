@@ -3,7 +3,7 @@ import { Mark } from "./Mark";
 
 export function Footer() {
   return (
-    <footer className="px-6 py-16">
+    <footer className="bg-raise px-6 py-16">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-6 md:flex-row md:items-center md:justify-between">
         <Link to="/" className="ring-focus flex w-max items-center gap-2 rounded-full text-sm font-semibold">
           <Mark />

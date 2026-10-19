@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Brain, CaretDown, Flame, Heart, Person, PersonSimpleRun, Scales } from "@phosphor-icons/react";
 import { api } from "../api";
 import { usePageMeta } from "../hooks/usePageMeta";
-import hero from "../img/hero.png";
 import jumperAir from "../img/jumper-air.png";
 import jumperSide from "../img/jumper-side.png";
 import { BookingForm } from "../components/BookingForm";
@@ -13,6 +12,7 @@ import { Nav } from "../components/Nav";
 import { Drift, Reveal } from "../components/Reveal";
 import { Tagline } from "../components/Tagline";
 import { buttonClass } from "../components/ui";
+import { Wave } from "../components/Wave";
 
 const BENEFITS = [
   { title: "Mejor resistencia", text: "Trabajas el corazón y los pulmones mientras sigues el ritmo.", icon: Heart },
@@ -127,10 +127,8 @@ export function Landing() {
     <>
       <Nav />
       <main id="contenido">
-        <section id="inicio" className="relative overflow-hidden">
-          <img src={hero} alt="" className="pointer-events-none absolute inset-0 h-full w-full object-cover" />
-          <div className="pointer-events-none absolute inset-0 bg-canvas/50" />
-          <div className="relative mx-auto grid w-full max-w-6xl items-center gap-12 px-6 py-16 md:py-24 lg:grid-cols-[1.05fr_0.95fr]">
+        <section id="inicio" className="hero-stage relative flex min-h-dvh items-center overflow-hidden">
+          <div className="relative mx-auto grid w-full max-w-6xl items-center gap-12 px-6 py-24 lg:grid-cols-[1.05fr_0.95fr]">
           <div>
             <Reveal>
               <p className="text-sm font-semibold text-blue">Clase personalizada</p>
@@ -158,9 +156,11 @@ export function Landing() {
             </Drift>
           </Reveal>
           </div>
+          <Wave />
         </section>
 
-        <section className="mx-auto grid w-full max-w-6xl gap-8 px-6 py-16 md:grid-cols-2 md:py-24">
+        <section className="relative">
+          <div className="mx-auto grid w-full max-w-6xl gap-8 px-6 pb-24 pt-16 md:grid-cols-2 md:pt-24">
           <Reveal>
             <h2 className="max-w-[680px] text-4xl font-semibold">Mucho más que saltar</h2>
             <p className="mt-4 max-w-[680px] text-lg text-muted">
@@ -181,9 +181,11 @@ export function Landing() {
               ))}
             </ul>
           </div>
+          </div>
+          <Wave className="text-raise" variant="curve" />
         </section>
 
-        <section id="beneficios" className="bg-raise px-6 py-24">
+        <section id="beneficios" className="relative bg-raise px-6 py-24">
           <div className="mx-auto w-full max-w-6xl">
             <Reveal>
               <h2 className="max-w-[680px] text-4xl font-semibold">Por qué practicar jumping</h2>
@@ -204,11 +206,13 @@ export function Landing() {
               })}
             </div>
           </div>
+          <Wave />
         </section>
 
         <Tagline />
 
-        <section id="como-funciona" className="mx-auto w-full max-w-6xl px-6 py-16 md:py-24">
+        <section id="como-funciona" className="relative bg-raise">
+          <div className="mx-auto w-full max-w-6xl px-6 py-24">
           <div className="grid items-center gap-8 lg:grid-cols-[minmax(0,1fr)_auto]">
             <div>
               <Reveal>
@@ -238,9 +242,11 @@ export function Landing() {
               </Drift>
             </Reveal>
           </div>
+          </div>
+          <Wave variant="curve" />
         </section>
 
-        <section id="primera-clase" className="bg-raise px-6 py-24">
+        <section id="primera-clase" className="relative px-6 py-24">
           <div className="mx-auto grid w-full max-w-6xl gap-8 lg:grid-cols-[0.8fr_1.2fr]">
             <Reveal>
               <h2 className="max-w-[680px] text-4xl font-semibold">Si es tu primera clase</h2>
@@ -248,23 +254,25 @@ export function Landing() {
             </Reveal>
             <ol className="grid list-none gap-3">
               {TIPS.map((tip, index) => (
-                <Reveal key={tip} as="li" delay={index * 0.06} className="rounded-2xl bg-card p-4">
+                <Reveal key={tip} as="li" delay={index * 0.06} className="rounded-2xl bg-raise p-4">
                   <p className="text-sm font-semibold text-blue">{String(index + 1).padStart(2, "0")}</p>
                   <p className="mt-2 text-base">{tip}</p>
                 </Reveal>
               ))}
             </ol>
           </div>
+          <Wave className="text-raise" />
         </section>
 
-        <section id="preguntas" className="mx-auto w-full max-w-6xl px-6 py-16 md:py-24">
+        <section id="preguntas" className="relative bg-raise">
+          <div className="mx-auto w-full max-w-6xl px-6 py-24">
           <Reveal>
             <h2 className="max-w-[680px] text-4xl font-semibold">Preguntas frecuentes</h2>
           </Reveal>
           <div className="mt-8 grid max-w-[680px] gap-3">
             {FAQS.map((item, index) => (
               <Reveal key={item.q} delay={index * 0.05}>
-                <details className="group rounded-2xl bg-raise p-4">
+                <details className="group rounded-2xl bg-card p-4">
                 <summary className="ring-focus flex cursor-pointer list-none items-center justify-between gap-4 text-lg font-semibold">
                   {item.q}
                   <CaretDown size={20} className="shrink-0 text-muted transition-transform duration-700 ease-fluid group-open:rotate-180" aria-hidden="true" />
@@ -274,9 +282,12 @@ export function Landing() {
               </Reveal>
             ))}
           </div>
+          </div>
+          <Wave variant="curve" />
         </section>
 
-        <section id="agenda" className="mx-auto w-full max-w-6xl px-6 py-16 md:py-24">
+        <section id="agenda" className="relative">
+          <div className="mx-auto w-full max-w-6xl px-6 py-24">
           <Reveal>
             <h2 className="max-w-[680px] text-4xl font-semibold">Elige tu clase</h2>
             <p className="mt-4 max-w-[680px] text-lg text-muted">Toca un día marcado y aparta un lugar libre. El pago por Zelle es obligatorio, y al pagarlo eliges el sabor de tu proteína.</p>
@@ -300,6 +311,8 @@ export function Landing() {
               <BookingForm meta={meta} selectedClass={selectedClass} onBooked={() => loadClasses(month)} onRetry={loadMeta} />
             </Reveal>
           </div>
+          </div>
+          <Wave className="text-raise" />
         </section>
       </main>
       <Footer />

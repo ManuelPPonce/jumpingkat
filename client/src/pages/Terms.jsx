@@ -10,7 +10,7 @@ export function Terms() {
   return (
     <>
       <Nav />
-      <main id="contenido" className="mx-auto w-full max-w-[680px] px-6 py-16">
+      <main id="contenido" className="mx-auto w-full max-w-[680px] px-6 pb-16 pt-24">
         <h1 className="text-4xl font-semibold">Términos</h1>
         <div className="mt-6 grid gap-4 text-base text-muted">
           <p>Apartar una clase significa que enviaste el pago por Zelle, escribiste el nombre del envío y elegiste el sabor de tu proteína. El estado pasa a pagado cuando el estudio confirma que el dinero llegó.</p>

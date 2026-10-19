@@ -69,6 +69,25 @@ body {
   background: color-mix(in srgb, var(--canvas) 80%, transparent);
 }
 
+.hero-stage {
+  background-color: #000000;
+  background-image: url("./img/hero-oscuro.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+@media (max-width: 1023px) {
+  .hero-stage {
+    background-position: 72% center;
+  }
+}
+
+:root[data-theme="light"] .hero-stage {
+  background-color: #ffffff;
+  background-image: url("./img/hero.png");
+}
+
 #root {
   min-height: 100vh;
 }

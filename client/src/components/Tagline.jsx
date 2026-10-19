@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { useMotionValueEvent, useScroll } from "motion/react";
 import { useReduceMotion } from "./Reveal";
+import { Wave } from "./Wave";
 
 const LINES = [
   ["Aquí", "no", "se", "trata", "de", "saltar", "más", "alto."],
@@ -35,7 +36,7 @@ export function Tagline() {
   let index = 0;
 
   return (
-    <section ref={ref} className="flex min-h-[70vh] items-center px-6 py-24" aria-label="Idea central">
+    <section ref={ref} className="relative flex min-h-[70vh] items-center px-6 py-24" aria-label="Idea central">
       <h2 className="mx-auto max-w-[680px] text-4xl font-semibold md:text-5xl">
         {LINES.map((line) => (
           <span key={line.join(" ")} className="mb-3 block">
@@ -55,6 +56,7 @@ export function Tagline() {
           </span>
         ))}
       </h2>
+      <Wave className="text-raise" variant="curve" />
     </section>
   );
 }
